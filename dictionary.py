@@ -11,7 +11,7 @@ for i in range(100):
   words_space += most_occur[i][0] + "_, "
 
 # Generate a string that reflect the structure of the Table
-columns = "(Idx, " + words_space + "Label);"
+columns = "(" + words_space + "Label);"
 
 # Create the Table
 create = "CREATE TEMP TABLE Dictionary" + columns
@@ -22,7 +22,7 @@ for i in range(40):
   # Cast the frequency dict for the ith label to a list 
   lst = list(ls_dict[i].keys())
   # Declare a string to store the values used in insertion
-  values_to_insert = "(" + str(i) + ", "
+  values_to_insert = "("
   for j in range(100):
     # For each of the top 100 frequent words, attach the count for ith label as a value to insert
     label_dict = ls_dict[i]
@@ -30,7 +30,7 @@ for i in range(40):
   values_to_insert += str(i) + ");"
   
   # Insert the row into Dictionary
-  insert = "INSERT INTO Dictionary " + "(Idx, " + words_space + "Label) VALUES " + values_to_insert
+  insert = "INSERT INTO Dictionary (" + words_space + "Label) VALUES " + values_to_insert
   cursor.execute(insert)
 
 # Select all entries from Dictionary
@@ -40,4 +40,4 @@ pd.read_sql_query(query,sql_connect)
 
 # Export the DataFrame to a CSV file without including the index
 db_df = pd.read_sql_query(query, sql_connect)
-db_df.to_csv('database.csv', index=False)
+db_df.to_csv('database.csv', index=True)
